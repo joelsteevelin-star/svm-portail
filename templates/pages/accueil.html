@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Accueil - SVM Portail{% endblock %}
+
+{% block content %}
+<div class="row align-items-center mb-5">
+    <div class="col-md-6">
+        <h1 class="display-4 fw-bold mb-4">
+            Bienvenue sur <span class="text-primary">SVM PORTAIL</span>
+        </h1>
+        <p class="lead mb-4">
+            Votre plateforme professionnelle pour la gestion des produits Multirisques, espace CEEAC.
+            Organisez, cataloguez et partagez vos produits en toute simplicité.
+        </p>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+            <a href="/produits/" class="btn btn-primary btn-lg px-4 me-md-2">
+                <i class="fas fa-boxes me-2"></i> Voir les produits
+            </a>
+            <a href="#" class="btn btn-outline-secondary btn-lg px-4">
+                <i class="fas fa-play-circle me-2"></i> Découvrir
+            </a>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-0 shadow-lg">
+            <div class="card-body p-4">
+                <h3 class="card-title mb-4">
+                    <i class="fas fa-chart-line text-primary me-2"></i>
+                    Statistiques
+                </h3>
+                <div class="row text-center">
+                    <div class="col-6 mb-3">
+                        <div class="display-6 fw-bold text-primary">0</div>
+                        <small class="text-muted">Produits</small>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <div class="display-6 fw-bold text-success">0</div>
+                        <small class="text-muted">Catégories</small>
+                    </div>
+                    <div class="col-6">
+                        <div class="display-6 fw-bold text-info">0</div>
+                        <small class="text-muted">Utilisateurs</small>
+                    </div>
+                    <div class="col-6">
+                        <div class="display-6 fw-bold text-warning">0</div>
+                        <small class="text-muted">Visites</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-12">
+        <h2 class="mb-4">Fonctionnalités principales</h2>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center">
+                <div class="display-1 text-primary mb-3">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <h4 class="card-title">Catégories multiples</h4>
+                <p class="card-text">
+                    Organisez vos produits dans plusieurs répertoires et sous-catégories.
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center">
+                <div class="display-1 text-success mb-3">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h4 class="card-title">Multi-utilisateurs</h4>
+                <p class="card-text">
+                    Partagez la plateforme avec votre équipe et collaborez en temps réel.
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center">
+                <div class="display-1 text-info mb-3">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <h4 class="card-title">Cloud hébergé</h4>
+                <p class="card-text">
+                    Accessible partout, hébergé sur des serveurs performants et sécurisés.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

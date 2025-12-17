@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: svm-portail
+    env: python
+    region: frankfurt
+    plan: free
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn plateforme.wsgi:application"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: svm-portail-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: DJANGO_SETTINGS_MODULE
+        value: "plateforme.settings"
+
+databases:
+  - name: svm-portail-db
+    databaseName: svmportail
+    user: svmuser
+    plan: free
+    region: frankfurt
