@@ -20,13 +20,13 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.shortcuts import render
-from produits.models import Produit  # Importe SEULEMENT Produit
+from produits.models import Produit, Categorie 
 
 # Vue personnalisée pour l'accueil avec statistiques
 def accueil_view(request):
     context = {
         'produits_count': Produit.objects.count(),
-        'categories_count': 0,  # Pas encore de catégories
+        'categories_count': Categorie.objects.count(),
         'users_count': 0,
     }
     return render(request, 'pages/accueil.html', context)
