@@ -18,7 +18,7 @@ class Produit(models.Model):
     ]
     
     nom = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(unique=True, blank=True, null=True)
     description = models.TextField()
     description_courte = models.CharField(max_length=300, blank=True)
     prix = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
