@@ -19,15 +19,24 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from django.views.generic import TemplateView
+from django.shortcuts import render
+from produits.models import Produit, Categorie  # Importe tes modèles
+
+# Vue personnalisée pour l'accueil avec statistiques
+def accueil_view(request):
+    context = {
+        'produits_count': Produit.objects.count(),
+        'categories_count': Categorie.objects.count(),
+        'users_count': 0,  # Tu peux ajouter plus tard avec django.contrib.auth.models.User
+    }
+    return render(request, 'pages/accueil.html', context)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', TemplateView.as_view(template_name='pages/accueil.html'), name='accueil'),
+    path('', accueil_view, name='accueil'),  # ← Utilise ta vue personnalisée
     path('produits/', include('produits.urls')),
-    path('comptes/', include('django.contrib.auth.urls')),  # URLs d'authentification
+    path('comptes/', include('django.contrib.auth.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-# Servir les fichiers statiques en mode DEBUG
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -31,20 +31,22 @@
                 </h3>
                 <div class="row text-center">
                     <div class="col-6 mb-3">
-                        <div class="display-6 fw-bold text-primary">0</div>
+                        <div class="display-6 fw-bold text-primary">{{ produits_count|default:"0" }}</div>
                         <small class="text-muted">Produits</small>
                     </div>
                     <div class="col-6 mb-3">
-                        <div class="display-6 fw-bold text-success">0</div>
+                        <div class="display-6 fw-bold text-success">{{ categories_count|default:"0" }}</div>
                         <small class="text-muted">Catégories</small>
                     </div>
                     <div class="col-6">
-                        <div class="display-6 fw-bold text-info">0</div>
+                        <div class="display-6 fw-bold text-info">{{ users_count|default:"0" }}</div>
                         <small class="text-muted">Utilisateurs</small>
                     </div>
                     <div class="col-6">
-                        <div class="display-6 fw-bold text-warning">0</div>
-                        <small class="text-muted">Visites</small>
+                        <div class="display-6 fw-bold text-warning">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <small class="text-muted">En croissance</small>
                     </div>
                 </div>
             </div>
