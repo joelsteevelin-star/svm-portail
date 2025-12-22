@@ -20,20 +20,20 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.shortcuts import render
-from produits.models import Produit, Categorie  # Importe tes modèles
+from produits.models import Produit  # Importe SEULEMENT Produit
 
 # Vue personnalisée pour l'accueil avec statistiques
 def accueil_view(request):
     context = {
         'produits_count': Produit.objects.count(),
-        'categories_count': Categorie.objects.count(),
-        'users_count': 0,  # Tu peux ajouter plus tard avec django.contrib.auth.models.User
+        'categories_count': 0,  # Pas encore de catégories
+        'users_count': 0,
     }
     return render(request, 'pages/accueil.html', context)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', accueil_view, name='accueil'),  # ← Utilise ta vue personnalisée
+    path('', accueil_view, name='accueil'),
     path('produits/', include('produits.urls')),
     path('comptes/', include('django.contrib.auth.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
