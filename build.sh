@@ -11,5 +11,8 @@ python manage.py collectstatic --noinput --clear
 echo "=== Application des migrations ==="
 python manage.py migrate --noinput
 
+echo "=== Création du superuser SVM_CAPC ==="
+python create_admin.py
+
 echo "=== Vérification du système ==="
 python manage.py check --deploy
