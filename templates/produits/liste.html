@@ -14,7 +14,11 @@
             <p class="text-muted mb-0">
                 {{ produits|length }} produit{{ produits|pluralize }} disponible{{ produits|pluralize:"s" }}
                 {% if categorie_active %}
-                    dans "{{ categories|dict_key:categorie_active }}"
+                    {% for cat in categories %}
+                        {% if cat.slug == categorie_active %}
+                            dans "{{ cat.nom }}"
+                        {% endif %}
+                    {% endfor %}
                 {% endif %}
             </p>
         </div>
