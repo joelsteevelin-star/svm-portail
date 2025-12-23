@@ -1,23 +1,142 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Produits - SVM Portail{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>Nos produits</h1>
-    <a href="#" class="btn btn-primary">
-        <i class="fas fa-plus me-2"></i> Ajouter un produit
-    </a>
-</div>
-
-<div class="row">
-    <!-- Les produits apparaîtront ici -->
-    <div class="col-12">
-        <div class="alert alert-info">
-            <i class="fas fa-info-circle me-2"></i>
-            La liste des produits sera disponible prochainement.
-            <a href="/admin" class="alert-link">Accédez à l'admin</a> pour ajouter des produits.
+<div class="container">
+    <!-- Titre et filtres -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="mb-1">
+                <i class="fas fa-boxes text-primary me-2"></i>Nos Produits
+            </h1>
+            <p class="text-muted mb-0">
+                {{ produits|length }} produit{{ produits|pluralize }} disponible{{ produits|pluralize:"s" }}
+                {% if categorie_active %}
+                    dans "{{ categories|dict_key:categorie_active }}"
+                {% endif %}
+            </p>
+        </div>
+        
+        <!-- Bouton admin (visible seulement pour les admins) -->
+        {% if user.is_staff %}
+        <a href="/admin/produits/produit/add/" class="btn btn-outline-primary">
+            <i class="fas fa-plus me-2"></i>Ajouter un produit
+        </a>
+        {% endif %}
+    </div>
+    
+    <!-- Filtres par catégorie -->
+    {% if categories %}
+    <div class="mb-4">
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'produit_liste' %}" 
+               class="btn btn-sm {% if not categorie_active %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                Tous les produits
+            </a>
+            {% for categorie in categories %}
+            <a href="{% url 'produit_liste' %}?categorie={{ categorie.slug }}" 
+               class="btn btn-sm {% if categorie_active == categorie.slug %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                {{ categorie.nom }}
+            </a>
+            {% endfor %}
         </div>
     </div>
+    {% endif %}
+    
+    <!-- Liste des produits -->
+    {% if produits %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for produit in produits %}
+        <div class="col">
+            <div class="card h-100 product-card border-0 shadow-sm">
+                <!-- Image du produit -->
+                {% if produit.image_principale %}
+                <img src="{{ produit.image_principale.url }}" 
+                     class="card-img-top" 
+                     alt="{{ produit.nom }}"
+                     style="height: 200px; object-fit: cover;">
+                {% else %}
+                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
+                     style="height: 200px;">
+                    <i class="fas fa-{{ produit.type_produit|default:'box' }} fa-3x text-muted"></i>
+                </div>
+                {% endif %}
+                
+                <div class="card-body d-flex flex-column">
+                    <!-- Catégorie -->
+                    {% if produit.categorie %}
+                    <div class="mb-2">
+                        <span class="badge bg-primary">{{ produit.categorie.nom }}</span>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Titre et description -->
+                    <h5 class="card-title">{{ produit.nom }}</h5>
+                    <p class="card-text text-muted flex-grow-1">
+                        {{ produit.description_courte|default:produit.description|truncatechars:120 }}
+                    </p>
+                    
+                    <!-- Prix et bouton -->
+                    <div class="d-flex justify-content-between align-items-center mt-auto">
+                        {% if produit.prix %}
+                        <span class="h5 text-success mb-0">{{ produit.prix }} €</span>
+                        {% else %}
+                        <span class="text-muted">Gratuit</span>
+                        {% endif %}
+                        
+                        <a href="{% url 'produit_detail' produit.slug %}" 
+                           class="btn btn-primary btn-sm">
+                            <i class="fas fa-eye me-1"></i> Voir
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Footer avec date -->
+                <div class="card-footer bg-transparent border-top-0">
+                    <small class="text-muted">
+                        <i class="far fa-calendar me-1"></i>
+                        Ajouté le {{ produit.created_at|date:"d/m/Y" }}
+                    </small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Message si aucun produit -->
+    {% else %}
+    <div class="text-center py-5">
+        <div class="display-1 text-muted mb-3">
+            <i class="fas fa-box-open"></i>
+        </div>
+        <h3 class="mb-3">Aucun produit disponible</h3>
+        <p class="text-muted mb-4">
+            Les produits seront bientôt disponibles.
+        </p>
+        {% if user.is_staff %}
+        <a href="/admin/produits/produit/add/" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>Ajouter le premier produit
+        </a>
+        {% endif %}
+    </div>
+    {% endif %}
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Filtrage AJAX simple (optionnel)
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.categorie-filter');
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            const categorie = this.dataset.categorie;
+            // Recharge la page avec le filtre
+            window.location.href = "{% url 'produit_liste' %}?categorie=" + categorie;
+        });
+    });
+});
+</script>
 {% endblock %}

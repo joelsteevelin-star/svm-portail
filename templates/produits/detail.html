@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ produit.nom }} - SVM Portail{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Lien retour -->
+    <a href="{% url 'produit_liste' %}" class="text-decoration-none mb-3 d-inline-block">
+        <i class="fas fa-arrow-left me-1"></i> Retour aux produits
+    </a>
+    
+    <div class="row">
+        <!-- Image produit -->
+        <div class="col-md-6">
+            {% if produit.image_principale %}
+            <img src="{{ produit.image_principale.url }}" 
+                 class="img-fluid rounded shadow" 
+                 alt="{{ produit.nom }}">
+            {% else %}
+            <div class="bg-light rounded shadow d-flex align-items-center justify-content-center" 
+                 style="height: 300px;">
+                <i class="fas fa-{{ produit.type_produit|default:'box' }} fa-5x text-muted"></i>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Détails produit -->
+        <div class="col-md-6">
+            <!-- Catégorie -->
+            {% if produit.categorie %}
+            <div class="mb-3">
+                <span class="badge bg-primary">{{ produit.categorie.nom }}</span>
+            </div>
+            {% endif %}
+            
+            <!-- Titre -->
+            <h1 class="mb-3">{{ produit.nom }}</h1>
+            
+            <!-- Description -->
+            <div class="mb-4">
+                <p class="lead">{{ produit.description }}</p>
+            </div>
+            
+            <!-- Prix -->
+            {% if produit.prix %}
+            <div class="mb-4">
+                <h3 class="text-success">{{ produit.prix }} €</h3>
+            </div>
+            {% endif %}
+            
+            <!-- Type et fichier -->
+            <div class="mb-4">
+                <p>
+                    <strong>Type :</strong> 
+                    {{ produit.get_type_produit_display }}
+                </p>
+                {% if produit.fichier %}
+                <a href="{{ produit.fichier.url }}" class="btn btn-primary" download>
+                    <i class="fas fa-download me-2"></i>Télécharger
+                </a>
+                {% endif %}
+            </div>
+            
+            <!-- Métadonnées -->
+            <div class="text-muted small">
+                <p class="mb-0">
+                    <i class="far fa-calendar me-1"></i>
+                    Ajouté le {{ produit.created_at|date:"d/m/Y à H:i" }}
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Produits similaires -->
+    {% if produits_similaires %}
+    <div class="mt-5 pt-4 border-top">
+        <h3 class="mb-4">Produits similaires</h3>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3">
+            {% for similaire in produits_similaires %}
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="card-title">{{ similaire.nom|truncatechars:40 }}</h6>
+                        <a href="{% url 'produit_detail' similaire.slug %}" 
+                           class="btn btn-outline-primary btn-sm mt-2">
+                            Voir ce produit
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
