@@ -109,3 +109,35 @@ body.dynamic-bg {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
+
+/* =========================================== */
+/* CORRECTION CONTRASTE */
+/* =========================================== */
+
+/* 1. FORCER la navbar bleue Bootstrap */
+.navbar.bg-primary {
+    background-color: #0d6efd !important; /* Bleu Bootstrap officiel */
+    color: white !important;
+}
+
+/* 2. FORCER le footer noir Bootstrap */
+footer.bg-dark {
+    background-color: #212529 !important; /* Noir Bootstrap officiel */
+    color: white !important;
+}
+
+/* 3. S'assurer que le texte des liens est visible */
+.navbar-dark .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.navbar-dark .nav-link:hover {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* 4. Surcharger ta règle footer existante pour ne pas qu'elle écrase bg-dark */
+footer {
+    margin-top: auto;
+    /* NE PAS remettre background-color ici, laisse bg-dark faire son travail */
+    color: white !important;
+}
